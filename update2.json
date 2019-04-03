@@ -1,0 +1,23 @@
+{
+        "ID": 0,
+        "Name": "Adiulay",
+        "Job": "Warrior",
+        "Level": {
+            "Level": 500,
+            "Experience": 50000
+        },
+        "Sword Name": "Soul Stalker",
+        "Ultimate Skill": "Thousand cuts!",
+        "Health": {
+            "Health": 60100.0,
+            "Health Regeneration": 100.0
+        },
+        "Offense": {
+            "Attack Damage": 60100.0,
+            "Magic Damage": 100.0
+        },
+        "Defense": {
+            "Armor": 60100.0,
+            "Magic Resist": 2540.0
+        }
+    }

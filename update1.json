@@ -1,0 +1,23 @@
+{
+        "ID": 1,
+        "Name": "IAteLeviathan",
+        "Job": "Magician",
+        "Level": {
+            "Level": 501,
+            "Experience": 50001
+        },
+        "Wand Name": "Evil Eye Staff",
+        "Special Cast": "AL HUMA!",
+        "Health": {
+            "Health": 8000.0,
+            "Health Regeneration": 1000.0
+        },
+        "Offense": {
+            "Attack Damage": 1240.0,
+            "Magic Damage": 896530.0
+        },
+        "Defense": {
+            "Armor": 1200.0,
+            "Magic Resist": 9862140.0
+        }
+    }
