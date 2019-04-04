@@ -30,22 +30,22 @@ class AbstractCharacter(Base):
         self._job = job
 
         AbstractCharacter._validate_string_input('Health', health)
-        self._health = float(health)
+        self._health = int(health)
 
         AbstractCharacter._validate_string_input('Health Regeneration', health_regen)
-        self._health_regeneration = float(health_regen)
+        self._health_regeneration = int(health_regen)
 
         AbstractCharacter._validate_string_input('Attack Damage', attack_damage)
-        self._attack_damage = float(attack_damage)
+        self._attack_damage = int(attack_damage)
 
         AbstractCharacter._validate_string_input('Magic Damage', magic_damage)
-        self._magic_damage = float(magic_damage)
+        self._magic_damage = int(magic_damage)
 
         AbstractCharacter._validate_string_input('Armor', armor)
-        self._armor = float(armor)
+        self._armor = int(armor)
 
         AbstractCharacter._validate_string_input('Magic Resist', magic_resist)
-        self._magic_resist = float(magic_resist)
+        self._magic_resist = int(magic_resist)
 
     def get_details(self):
         """An abstract method, Outputs details of the object <character>"""
