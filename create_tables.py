@@ -9,6 +9,7 @@ c.execute('''
           (id INTEGER PRIMARY KEY ASC, 
            name VARCHAR(250) NOT NULL,
            job VARCHAR(250) NOT NULL,
+           level INTEGER NOT NULL,
            health INTEGER NOT NULL,
            health_regeneration INTEGER NOT NULL,
            attack_damage INTEGER NOT NULL,

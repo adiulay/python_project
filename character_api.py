@@ -16,24 +16,24 @@ def add_character():
     info = request.json
 
     try:
-        if info['Job'] == 'Warrior':
+        if info['job'] == 'Warrior':
             character = Warrior(
-                info['Name'],
-                info['Job'],
+                info['name'],
+                info['job'],
 
-                info['Level'],
+                info['level'],
 
-                info['Sword Name'],
-                info['Ultimate Skill'],
+                info['health'],
+                info['health_regeneration'],
 
-                info['Health'],
-                info['Health Regeneration'],
+                info['attack_damage'],
+                info['magic_damage'],
 
-                info['Attack Damage'],
-                info['Magic Damage'],
+                info['armor'],
+                info['magic_resist'],
 
-                info['Armor'],
-                info['Magic Resist'],
+                info['sword'],
+                info['skill_ability']
             )
             character_manager.add(character)
             response = app.response_class(
@@ -43,22 +43,22 @@ def add_character():
             return response
         elif info['Job'] == 'Magician':
             character = Magician(
-                info['Name'],
-                info['Job'],
+                info['name'],
+                info['job'],
 
-                info['Level'],
+                info['level'],
 
-                info['Health'],
-                info['Health Regeneration'],
+                info['health'],
+                info['health_regeneration'],
 
-                info['Attack Damage'],
-                info['Magic Damage'],
+                info['attack_damage'],
+                info['magic_damage'],
 
-                info['Armor'],
-                info['Magic Resist'],
+                info['armor'],
+                info['magic_resist'],
 
-                info['Wand Name'],
-                info['Special Cast'],
+                info['wand'],
+                info['spell_cast']
             )
             character_manager.add(character)
 

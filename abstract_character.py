@@ -23,11 +23,11 @@ class AbstractCharacter(Base):
         AbstractCharacter._validate_string_input('Name', name)
         self._name = name
 
-        AbstractCharacter._validate_string_input('Level', level)
-        self._level = int(level)
-
         AbstractCharacter._validate_string_input('Job', job)
         self._job = job
+
+        AbstractCharacter._validate_string_input('Level', level)
+        self._level = int(level)
 
         AbstractCharacter._validate_string_input('Health', health)
         self._health = int(health)
