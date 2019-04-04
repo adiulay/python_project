@@ -102,7 +102,7 @@ def add_character():
 
 @app.route('/characters/<int:id>', methods=['DELETE'])
 def delete_character(id):
-    """Delete an existing student from the Student Manager"""
+    """Delete an existing character from the Character Manager"""
 
     if id < 0:
         response = app.response_class(
@@ -131,6 +131,145 @@ def delete_character(id):
         )
         return response
 
+@app.route('/characters/<int:id>', methods=['PUT'])
+def update_character(id):
+    """Updates an Existing Character"""
+    info = request.json
+
+    if id <= 0:
+        response = app.response_class(
+            status=400,
+            response=str('ID cannot be less than or equal to 0')
+        )
+        return response
+
+    try:
+        if info['job'] == 'Warrior':
+            character = Warrior(
+                info['name'],
+                info['job'],
+
+                info['level'],
+
+                info['health'],
+                info['health_regeneration'],
+
+                info['attack_damage'],
+                info['magic_damage'],
+
+                info['armor'],
+                info['magic_resist'],
+
+                info['sword'],
+                info['skill_ability']
+            )
+            character.add_health()
+            character.add_armor()
+            character.add_attack_damage()
+
+            character.id = id
+            character_manager.update(character)
+        elif info['job'] == 'Magician':
+            character = Magician(
+                info['name'],
+                info['job'],
+
+                info['level'],
+
+                info['health'],
+                info['health_regeneration'],
+
+                info['attack_damage'],
+                info['magic_damage'],
+
+                info['armor'],
+                info['magic_resist'],
+
+                info['wand'],
+                info['spell_cast']
+            )
+            character.add_magic_damage()
+            character.add_health_regeneration()
+            character.add_magic_resist()
+
+            character.id = id
+            character_manager.update(character)
+
+        response = app.response_class(
+            status=200,
+            response='Character id: {}, has been updated!'.format(id)
+        )
+    except ValueError as e:
+        status_code = 400
+
+        if str(e) == "Invalid Character Object":
+            status_code = 404
+
+        response = app.response_class(
+            response=str(e),
+            status=status_code
+        )
+    except KeyError as e:
+        response = app.response_class(
+            response=str('Missing Key: {}'.format(e)),
+            status=400
+        )
+
+    return response
+
+@app.route('/characters/all', methods=['GET'])
+def get_all_characters():
+    """Gets all characters in the Character Manager"""
+
+    characters = character_manager.get_all()
+
+    character_list = []
+
+    for character in characters:
+        character_list.append(character.to_dict())
+
+    response = app.response_class(
+        status=200,
+        response=json.dumps(character_list),
+        mimetype='application/json'
+    )
+
+    return response
+
+@app.route('/characters/<int:id>', methods=['GET'])
+def get_character(id):
+    """Gets an existing character in the Character Manager"""
+
+    if id <= 0:
+        response = app.response_class(
+            status=400
+        )
+        return response
+
+    try:
+        character = character_manager.get(id)
+
+        character_tostring = character.to_dict()
+
+        response = app.response_class(
+            status=200,
+            response=json.dumps(character_tostring),
+            mimetype='application/json'
+        )
+    except ValueError as e:
+        response = app.response_class(
+            status=404,
+            response=str(e),
+            mimetype='application/json'
+        )
+    except AttributeError as e:
+        response = app.response_class(
+            status=400,
+            response=str('Does not exist'),
+            mimetype='application/json'
+        )
+
+    return response
 
 
 

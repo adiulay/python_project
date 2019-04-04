@@ -66,7 +66,7 @@ class MapleStory():
         session = self._db_session()
 
         existing_warrior = session.query(Warrior).filter(Warrior.job == 'Warrior').all()
-        existing_magician = session.query(Magician).filter(Magician.job == 'Warrior').all()
+        existing_magician = session.query(Magician).filter(Magician.job == 'Magician').all()
 
         existing_characters = existing_warrior + existing_magician
 
@@ -97,7 +97,7 @@ class MapleStory():
         """Takes an entity object and updates it with the objects id"""
         MapleStory._validate_string_input('Object', character)
 
-        if character is not isinstance(character, AbstractCharacter):
+        if character is None or not isinstance(character, AbstractCharacter):
             raise ValueError('Invalid Character Object')
 
         session = self._db_session()
@@ -106,9 +106,17 @@ class MapleStory():
             existing_character = session.query(Warrior).filter(Warrior.id == character.id).first()
             existing_character.copy(character) #look into this
 
+            mage = session.query(Magician).filter(Magician.id == character.id).first()
+            mage.wand = None
+            mage.spell_cast = None
+
         if character.job == 'Magician':
             existing_character = session.query(Magician).filter(Magician.id == character.id).first()
-            existing_character.copy(existing_character)
+            existing_character.copy(character)
+
+            warrior = session.query(Warrior).filter(Warrior.id == character.id).first()
+            warrior.sword = None
+            warrior.skill_ability = None
 
         session.commit()
         session.close()

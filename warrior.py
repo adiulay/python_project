@@ -101,7 +101,7 @@ class Warrior(AbstractCharacter):
         dict['attack_damage'] = self.attack_damage
         dict['magic_damage'] = self.magic_damage
 
-        dict['armor'] = self.armor,
+        dict['armor'] = self.armor
         dict['magic_resist'] = self.magic_resist
 
         dict['sword'] = self.sword
@@ -130,6 +130,10 @@ class Warrior(AbstractCharacter):
             self.armor = object.armor
 
             self.magic_resist = object.magic_resist
+
+            self.sword = object.sword
+
+            self.skill_ability = object.skill_ability
 
     @staticmethod
     def _retrieving_errors(user_input, missing_output):
