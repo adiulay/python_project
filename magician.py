@@ -27,24 +27,24 @@ class Magician(AbstractCharacter):
         Magician._retrieving_errors(spell_cast, 'spell cast')
         super().__init__(name, Magician.MAGICIAN_TYPE, level, health, health_regen, attack_damage, magic_damage, armor, magic_resist)
 
-        self._wand = wand
-        self._spell_cast = spell_cast
+        self.wand = wand
+        self.spell_cast = spell_cast
 
     def get_wand(self):
         """returns the name of wand"""
-        return self._wand
+        return self.wand
 
     def add_health_regeneration(self):
         """Increases health regeneration"""
-        self._healthregen += 50 * self._level
+        self.health_regeneration += 50 * self.level
 
     def add_magic_damage(self):
         """Increases magic damage"""
-        self._magicdmg += 50 * self._level
+        self.magic_damage += 50 * self.level
 
     def add_magic_resist(self):
         """Increases magic resist"""
-        self._magicresist += 50 * self._level
+        self.magic_resist += 50 * self.level
 
     def get_description(self):
         """Returns the description of the class"""
@@ -54,21 +54,21 @@ class Magician(AbstractCharacter):
         """Returns a list of information of the object"""
         _detail_information = []
 
-        _detail_information.append("Name: {}".format(self._name))
-        _detail_information.append("Level: {}".format(self._level))
-        _detail_information.append("Class Type: {}".format(self._job))
-        _detail_information.append("Health: {:.1f}".format(self._health))
-        _detail_information.append("Health Regeneration: {:.1f}".format(self._health_regeneration))
-        _detail_information.append("Attack Damage: {:.1f}".format(self._attack_damage))
-        _detail_information.append("Magic Damage: {:.1f}".format(self._magic_damage))
-        _detail_information.append("Armor: {:.1f}".format(self._armor))
-        _detail_information.append("Magic Resist: {:.1f}".format(self._magic_resist))
-        _detail_information.append("Wand name: {}".format(self._wand))
+        _detail_information.append("Name: {}".format(self.name))
+        _detail_information.append("Level: {}".format(self.level))
+        _detail_information.append("Class Type: {}".format(self.job))
+        _detail_information.append("Health: {:.1f}".format(self.health))
+        _detail_information.append("Health Regeneration: {:.1f}".format(self.health_regeneration))
+        _detail_information.append("Attack Damage: {:.1f}".format(self.attack_damage))
+        _detail_information.append("Magic Damage: {:.1f}".format(self.magic_damage))
+        _detail_information.append("Armor: {:.1f}".format(self.armor))
+        _detail_information.append("Magic Resist: {:.1f}".format(self.magic_resist))
+        _detail_information.append("Wand name: {}".format(self.wand))
         _detail_information.append("Magician's main special booster:\n Health Regeneration: {}\n Magic Damage: "
                                     "{}\n Magic Resist: {}".format(
-                self._health_regeneration,
-                self._magic_damage,
-                self._magic_resist))
+                self.health_regeneration,
+                self.magic_damage,
+                self.magic_resist))
 
         return _detail_information
 
@@ -78,36 +78,36 @@ class Magician(AbstractCharacter):
 
     def set_spellcast(self, spell_name):
         """changes the spellcast name"""
-        self._spell_cast = spell_name
+        self.spell_cast = spell_name
 
     def get_spellcast(self):
         """Returns the spell incantation"""
-        return self._spell_cast
+        return self.spell_cast
 
     def reset_spellcast(self):
         """resets to its original incantation"""
-        self._spell_cast = 'AVADA KEDAVRA'
+        self.spell_cast = 'AVADA KEDAVRA'
 
     def to_dict(self):
         """converts the information into dictionary for easy use for api"""
         dict = {}
 
-        dict['Name'] = self._name
-        dict['Job'] = self._job
+        dict['name'] = self.name
+        dict['job'] = self.job
 
-        dict['Level'] = self._level
+        dict['level'] = self.level
 
-        dict['Wand Name'] = self._wand
-        dict['Special Cast'] = self._spell_cast
+        dict['wand'] = self.wand
+        dict['spell_cast'] = self.spell_cast
 
-        dict['Health'] = self._health
-        dict['Health Regeneration'] =  self._health_regeneration
+        dict['health'] = self.health
+        dict['health_regeneration'] =  self.health_regeneration
 
-        dict['Attack Damage'] = self._attack_damage
-        dict['Magic Damage'] = self._magic_damage
+        dict['attack_damage'] = self.attack_damage
+        dict['magic_damage'] = self.magic_damage
 
-        dict['Armor'] = self._armor,
-        dict['Magic Resist'] = self._magic_resist
+        dict['armor'] = self.armor,
+        dict['magic_resist'] = self.magic_resist
 
         return dict
 
@@ -115,27 +115,27 @@ class Magician(AbstractCharacter):
         """copies data from magician object to this object"""
 
         if isinstance(object, Magician):
-            self._name = object.name
+            self.name = object.name
 
-            self._job = object.job
+            self.job = object.job
 
-            self._level = object.level
+            self.level = object.level
 
-            self._health = object.health
+            self.health = object.health
 
-            self._health_regeneration = object.health_regeneration
+            self.health_regeneration = object.health_regeneration
 
-            self._attack_damage = object.attack_damage
+            self.attack_damage = object.attack_damage
 
-            self._magic_damage = object.magic_damage
+            self.magic_damage = object.magic_damage
 
-            self._armor = object.armor
+            self.armor = object.armor
 
-            self._magic_resist = object.magic_resist
+            self.magic_resist = object.magic_resist
 
-            self._wand = object.wand
+            self.wand = object.wand
 
-            self._spell_cast = object.spell_cast
+            self.spell_cast = object.spell_cast
 
     @staticmethod
     def _retrieving_errors(user_input, missing_output):

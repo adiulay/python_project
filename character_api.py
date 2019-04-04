@@ -10,7 +10,7 @@ SERVER_DB = 'maple_story.sqlite'
 
 character_manager = MapleStory(SERVER_DB)
 
-@app.route('/characters', methods=['POST'])
+@app.route('/character_list', methods=['POST'])
 def add_character():
     """Adds a character to the MapleStory"""
     info = request.json
@@ -41,7 +41,7 @@ def add_character():
                 response='Warrior Class has beed added!'
             )
             return response
-        elif info['Job'] == 'Magician':
+        elif info['job'] == 'Magician':
             character = Magician(
                 info['name'],
                 info['job'],

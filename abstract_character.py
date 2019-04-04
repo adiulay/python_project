@@ -4,7 +4,7 @@ from base import Base
 class AbstractCharacter(Base):
     """Character Declarative"""
 
-    __tablename__ = 'character'
+    __tablename__ = 'character_list'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
@@ -21,31 +21,31 @@ class AbstractCharacter(Base):
         """Constructor for the character class"""
 
         AbstractCharacter._validate_string_input('Name', name)
-        self._name = name
+        self.name = name
 
         AbstractCharacter._validate_string_input('Job', job)
-        self._job = job
+        self.job = job
 
         AbstractCharacter._validate_string_input('Level', level)
-        self._level = int(level)
+        self.level = int(level)
 
         AbstractCharacter._validate_string_input('Health', health)
-        self._health = int(health)
+        self.health = int(health)
 
         AbstractCharacter._validate_string_input('Health Regeneration', health_regen)
-        self._health_regeneration = int(health_regen)
+        self.health_regeneration = int(health_regen)
 
         AbstractCharacter._validate_string_input('Attack Damage', attack_damage)
-        self._attack_damage = int(attack_damage)
+        self.attack_damage = int(attack_damage)
 
         AbstractCharacter._validate_string_input('Magic Damage', magic_damage)
-        self._magic_damage = int(magic_damage)
+        self.magic_damage = int(magic_damage)
 
         AbstractCharacter._validate_string_input('Armor', armor)
-        self._armor = int(armor)
+        self.armor = int(armor)
 
         AbstractCharacter._validate_string_input('Magic Resist', magic_resist)
-        self._magic_resist = int(magic_resist)
+        self.magic_resist = int(magic_resist)
 
     def get_details(self):
         """An abstract method, Outputs details of the object <character>"""
@@ -66,23 +66,23 @@ class AbstractCharacter(Base):
         """copies data from both Warrior and Magician object to this object"""
 
         if isinstance(object, AbstractCharacter):
-            self._name = object.name
+            self.name = object.name
 
-            self._job = object.job
+            self.job = object.job
 
-            self._level = object.level
+            self.level = object.level
 
-            self._health = object.health
+            self.health = object.health
 
-            self._health_regeneration = object.health_regeneration
+            self.health_regeneration = object.health_regeneration
 
-            self._attack_damage = object.attack_damage
+            self.attack_damage = object.attack_damage
 
-            self._magic_damage = object.magic_damage
+            self.magic_damage = object.magic_damage
 
-            self._armor = object.armor
+            self.armor = object.armor
 
-            self._magic_resist = object.magic_resist
+            self.magic_resist = object.magic_resist
 
     @staticmethod
     def _validate_string_input(display_name, user_input):
