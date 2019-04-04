@@ -36,17 +36,17 @@ class Warrior(AbstractCharacter):
     def add_armor(self):
         """Increases armor stats"""
 
-        self.armor += 50 * self.get_level()
+        self.armor += 50 * self.level
 
     def add_attack_damage(self):
         """Increases attack damage"""
 
-        self.attack_damage += 50 * self.get_level()
+        self.attack_damage += 50 * self.level
 
     def add_health(self):
         """Increases health"""
 
-        self.health += 50 * self.get_level()
+        self.health += 50 * self.level
 
     def get_description(self):
         """Returns the description of the class"""
