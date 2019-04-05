@@ -82,16 +82,20 @@ class MapleStory():
         MapleStory._validate_string_input('Type', type)
 
         session = self._db_session()
-
-        existing_warrior = session.query(Warrior).filter(Warrior.job == type).all()
-        existing_magician = session.query(Magician).filter(Magician.job == type).all()
+        
+        if type == 'Warrior':
+            existing_warrior = session.query(Warrior).filter(Warrior.job == type).all()
+            return existing_warrior
+        elif type == 'Magician':
+            existing_magician = session.query(Magician).filter(Magician.job == type).all()
+            return existing_magician
 
         session.close()
 
-        if existing_warrior is None:
-            return existing_magician
-        elif existing_magician is None:
-            return existing_warrior
+        # if existing_warrior is None:
+        #     return existing_magician
+        # elif existing_magician is None:
+        #     return existing_warrior
 
     def update(self, character):
         """Takes an entity object and updates it with the objects id"""

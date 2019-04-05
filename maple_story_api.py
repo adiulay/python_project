@@ -6,231 +6,285 @@ import json
 
 app = Flask(__name__)
 
-server = MapleStory('Windia.json')
+SERVER_DB = 'maple_story.sqlite'
 
-@app.route('/maplestory/character', methods=['POST'])
+character_manager = MapleStory(SERVER_DB)
+
+@app.route('/characters', methods=['POST'])
 def add_character():
-    """adds new character to maplestory"""
+    """Adds a character to the MapleStory"""
     info = request.json
 
     try:
-        if server.character_exist(info['ID']) is True:
-            response = app.response_class(
-                response="Character ID: {} already existed".format(info['ID']),
-                status=400
+        if info['job'] == 'Warrior':
+            character = Warrior(
+                info['name'],
+                info['job'],
+
+                info['level'],
+
+                info['health'],
+                info['health_regeneration'],
+
+                info['attack_damage'],
+                info['magic_damage'],
+
+                info['armor'],
+                info['magic_resist'],
+
+                info['sword'],
+                info['skill_ability']
             )
-            return response
-
-        else:
-            if info['Job'] == 'Warrior':
-                warrior = Warrior(info["ID"], info['Name'], info['Health']['Health'], info['Health']['Health Regeneration'],
-                                  info['Offense']['Attack Damage'], info['Offense']['Magic Damage'], info['Defense']['Armor'],
-                                  info['Defense']['Magic Resist'], info['Sword Name'])
-
-                warrior.set_experience_info(info['Level']['Experience'])
-                warrior.add_armor()
-                warrior.add_attack_damage()
-                warrior.add_health()
-                warrior.set_special_skill(info['Ultimate Skill'])
-
-                server.add(warrior)
-
-            elif info['Job'] == 'Magician':
-                magician = Magician(info["ID"], info['Name'], info['Health']['Health'], info['Health']['Health Regeneration'],
-                                    info['Offense']['Attack Damage'], info['Offense']['Magic Damage'], info['Defense']['Armor'],
-                                    info['Defense']['Magic Resist'], info['Wand Name'])
-
-                magician.set_experience_info(info['Level']['Experience'])
-                magician.add_health_regeneration()
-                magician.add_magic_damage()
-                magician.add_magic_resist()
-                magician.set_spellcast(info['Special Cast'])
-
-                server.add(magician)
-
-        response = app.response_class(
-            response='Character ID <{}> created!'.format(info['ID']),
-            status=200
-        )
-        return response
-    except ValueError:
-        response = app.response_class(
-            response="Character is invalid",
-            status=400
-        )
-        return response
-    except KeyError:
-        response = app.response_class(
-            response='KeyError: Missing/Invalid Input',
-            status=400
-        )
-        return response
-
-@app.route('/maplestory/character/<entity_id>', methods=['PUT'])
-def update_character(entity_id):
-    info = request.json
-    try:
-        if info['Job'] == 'Warrior':
-            warrior = Warrior(info["ID"], info['Name'], info['Health']['Health'], info['Health']['Health Regeneration'],
-                              info['Offense']['Attack Damage'], info['Offense']['Magic Damage'],
-                              info['Defense']['Armor'],
-                              info['Defense']['Magic Resist'], info['Sword Name'])
-
-            warrior.set_experience_info(info['Level']['Experience'])
-            warrior.add_armor()
-            warrior.add_attack_damage()
-            warrior.add_health()
-            warrior.set_special_skill(info['Ultimate Skill'])
-
-            if str(info['ID']) == entity_id:
-                server.update(warrior)
-
-        elif info['Job'] == 'Magician':
-            magician = Magician(info["ID"], info['Name'], info['Health']['Health'],
-                                info['Health']['Health Regeneration'], info['Offense']['Attack Damage'],
-                                info['Offense']['Magic Damage'], info['Defense']['Armor'],
-                                info['Defense']['Magic Resist'], info['Wand Name'])
-
-            magician.set_experience_info(info['Level']['Experience'])
-            magician.add_health_regeneration()
-            magician.add_magic_damage()
-            magician.add_magic_resist()
-            magician.set_spellcast(info['Special Cast'])
-
-            if str(info['ID']) == entity_id:
-                server.update(magician)
-            else:
-                response = app.response_class(
-                    response='Character does not exist',
-                    status=404
-                )
-                return response
-
-        response = app.response_class(
-            response='Character ID <{}> updated!'.format(info['ID']),
-            status=200
-        )
-        return response
-    except ValueError:
-        response = app.response_class(
-            response="Character is invalid",
-            status=400
-        )
-        return response
-    except KeyError:
-        response = app.response_class(
-            response='KeyError: Missing/Invalid Input',
-            status=400
-        )
-        return response
-
-@app.route('/maplestory/character/delete/<entity_id>', methods=['DELETE'])
-def delete_character(entity_id):
-    counter = 0
-
-    try:
-        for character in server.get_all():
-            if character.get_id() == int(entity_id):
-                counter += 1
-                server.delete(int(entity_id))
-                response = app.response_class(
-                    status=200,
-                    response='Character ID <{}> Deleted'.format(entity_id)
-                )
-                return response
-        if counter == 0:
-            response = app.response_class(
-                status=404,
-                response='Character Does Not Exist'
-            )
-            return response
-    except ValueError:
-        response = app.response_class(
-            response="Character is invalid",
-            status=400
-        )
-        return response
-    except KeyError:
-        response = app.response_class(
-            response='KeyError: Missing/Invalid Input',
-            status=400
-        )
-        return response
-
-@app.route('/maplestory/character/<entity_id>', methods=['GET'])
-def get_character_by_id(entity_id):
-    all_characters = server.get_all()
-
-    cart = []
-
-    try:
-        for character in all_characters:
-            if character.get_id() == int(entity_id):
-                cart.append(character.to_dict())
-
-        if len(cart) > 0:
+            character.add_health()
+            character.add_armor()
+            character.add_attack_damage()
+            character_manager.add(character)
             response = app.response_class(
                 status=200,
-                response=json.dumps(cart),
-                mimetype='application/json'
+                response='Warrior Class has been added!'
             )
             return response
-        else:
+
+        if info['job'] == 'Magician':
+            character = Magician(
+                info['name'],
+                info['job'],
+
+                info['level'],
+
+                info['health'],
+                info['health_regeneration'],
+
+                info['attack_damage'],
+                info['magic_damage'],
+
+                info['armor'],
+                info['magic_resist'],
+
+                info['wand'],
+                info['spell_cast']
+            )
+            character.add_magic_damage()
+            character.add_health_regeneration()
+            character.add_magic_resist()
+            character_manager.add(character)
+
             response = app.response_class(
-            status=404,
-            response='Character ID: <{}> does not exist'.format(entity_id)
+                status=200,
+                response='Magician Class has been added!'
             )
             return response
-    except ValueError:
+
+    except ValueError as e:
         response = app.response_class(
-            response="Character is invalid",
+            response=str('Your error: {}'.format(e)),
+            status=400
+        )
+        return response
+    except KeyError as e:
+        response = app.response_class(
+            response=str('Missing Key: {}'.format(e)),
             status=400
         )
         return response
 
-@app.route('/maplestory/character/all', methods=['GET'])
-def get_all():
-    """Returns all the info as a list of objects character records"""
-    all_characters = server.get_all()
+@app.route('/characters/<int:id>', methods=['DELETE'])
+def delete_character(id):
+    """Delete an existing character from the Character Manager"""
 
-    cart = []
+    if id < 0:
+        response = app.response_class(
+            status=400
+        )
+        return response
 
-    for character in all_characters:
-        cart.append(character.to_dict())
+    try:
+        character_manager.delete(id)
+
+        response = app.response_class(
+            status=200,
+            response=str('Character ID: {} deleted'.format(id))
+        )
+        return response
+
+    except ValueError as e:
+        status_code = 400
+
+        if str(e) == "Character ID: {} does not exist".format(id):
+            status_code = 404
+
+        response = app.response_class(
+            response=str(e),
+            status=status_code
+        )
+        return response
+
+@app.route('/characters/<int:id>', methods=['PUT'])
+def update_character(id):
+    """Updates an Existing Character"""
+    info = request.json
+
+    if id == 0:
+        response = app.response_class(
+            status=400,
+            response=str('ID cannot be less than or equal to 0')
+        )
+        return response
+
+    try:
+        if info['job'] == 'Warrior':
+            character = Warrior(
+                info['name'],
+                info['job'],
+
+                info['level'],
+
+                info['health'],
+                info['health_regeneration'],
+
+                info['attack_damage'],
+                info['magic_damage'],
+
+                info['armor'],
+                info['magic_resist'],
+
+                info['sword'],
+                info['skill_ability']
+            )
+            character.add_health()
+            character.add_armor()
+            character.add_attack_damage()
+
+            character.id = id
+            character_manager.update(character)
+        elif info['job'] == 'Magician':
+            character = Magician(
+                info['name'],
+                info['job'],
+
+                info['level'],
+
+                info['health'],
+                info['health_regeneration'],
+
+                info['attack_damage'],
+                info['magic_damage'],
+
+                info['armor'],
+                info['magic_resist'],
+
+                info['wand'],
+                info['spell_cast']
+            )
+            character.add_magic_damage()
+            character.add_health_regeneration()
+            character.add_magic_resist()
+
+            character.id = id
+            character_manager.update(character)
+
+        response = app.response_class(
+            status=200,
+            response='Character id: {}, has been updated!'.format(id)
+        )
+    except ValueError as e:
+        status_code = 400
+
+        if str(e) == "Invalid Character Object":
+            status_code = 404
+
+        response = app.response_class(
+            response=str(e),
+            status=status_code
+        )
+    except KeyError as e:
+        response = app.response_class(
+            response=str('Missing Key: {}'.format(e)),
+            status=400
+        )
+
+    return response
+
+@app.route('/characters/all', methods=['GET'])
+def get_all_characters():
+    """Gets all characters in the Character Manager"""
+
+    characters = character_manager.get_all()
+
+    character_list = []
+
+    for character in characters:
+        character_list.append(character.to_dict())
 
     response = app.response_class(
         status=200,
-        response=json.dumps(cart),
+        response=json.dumps(character_list),
         mimetype='application/json'
     )
 
     return response
 
-@app.route('/maplestory/character/all/<type>', methods=['GET'])
-def get_all_by_type(type):
-    """returns a list of characters by type"""
-    all_characters = server.get_all()
+@app.route('/characters/<int:id>', methods=['GET'])
+def get_character(id):
+    """Gets an existing character in the Character Manager"""
 
-    type_list = []
+    if id == 0:
+        response = app.response_class(
+            status=400
+        )
+        return response
 
-    for character in all_characters:
-        if character.get_type() == type:
-            type_list.append(character.to_dict())
+    try:
+        character = character_manager.get(id)
 
-    if len(type_list) > 0:
+        character_tostring = character.to_dict()
+
         response = app.response_class(
             status=200,
-            response=json.dumps(type_list),
+            response=json.dumps(character_tostring),
             mimetype='application/json'
+        )
+    except ValueError as e:
+        response = app.response_class(
+            status=404,
+            response=str(e),
+            mimetype='application/json'
+        )
+    except AttributeError as e:
+        response = app.response_class(
+            status=400,
+            response=str('Character ID: {}, Does not exist'.format(id)),
+            mimetype='application/json'
+        )
+
+    return response
+
+@app.route('/characters/<type>', methods=['GET'])
+def get_character_by_type(type):
+    """Gets the character by type from database"""
+
+    characters_type = character_manager.get_all_by_type(type)
+
+    character_list = []
+
+    if characters_type is None:
+        response = app.response_class(
+            status=200,
+            response=str('Job type: {}, does not exist'.format(type))
         )
         return response
     else:
-        response = app.response_class(
-             status=400,
-            response="Type: <{}> Does not exist in the server".format(type),
-            mimetype='application/json'
-        )
-        return response
+        for character in characters_type:
+            character_list.append(character.to_dict())
+
+    response = app.response_class(
+        status=200,
+        response=json.dumps(character_list),
+        mimetype='application/json'
+    )
+    return response
+
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
