@@ -30,6 +30,10 @@ class Magician(AbstractCharacter):
         self.wand = wand
         self.spell_cast = spell_cast
 
+    def get_name(self):
+        """returns name of the character"""
+        return self.name
+
     def get_wand(self):
         """returns the name of wand"""
         return self.wand

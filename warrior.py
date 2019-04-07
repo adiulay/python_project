@@ -29,6 +29,10 @@ class Warrior(AbstractCharacter):
         self.sword = sword
         self.skill_ability = skill_ability
 
+    def get_name(self):
+        """returns name value"""
+        return self.name
+
     def get_sword(self):
         """returns a sword type"""
         return self.sword
