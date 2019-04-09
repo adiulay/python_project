@@ -96,6 +96,8 @@ class Magician(AbstractCharacter):
         """converts the information into dictionary for easy use for api"""
         dict = {}
 
+        dict['id'] = self.id
+
         dict['name'] = self.name
         dict['job'] = self.job
 
