@@ -15,6 +15,14 @@ def add_character():
     """Adds a character to the MapleStory"""
     info = request.json
 
+    for character in character_manager.get_all():
+        if character.get_name() == info['name']:
+            response = app.response_class(
+                status=404,
+                response=str('Name already in used')
+            )
+            return response
+
     try:
         if info['job'] == 'Warrior':
             character = Warrior(
