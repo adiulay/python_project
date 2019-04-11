@@ -146,27 +146,6 @@ class TestMapleStory(TestCase):
 
         self.logPoint()
 
-    def test_get_all_by_type(self):
-        """04B - successfully returns list of the same type"""
-
-        # returns 1 warriors
-        # warrior_list = []
-        # magician_list = []
-        #
-        # for character in self._test_maple_story.get_all_by_type('Warrior'):
-        #     warrior_list.append(character)
-        #
-        # for character in self._test_maple_story.get_all_by_type('Magician'):
-        #     magician_list.append(character)
-        #
-        # self.assertEqual(len(warrior_list), 1)
-        # self.assertEqual(len(magician_list), 1)
-
-        # returns 1 magicians
-        # self.assertEqual(len(self._test_maple_story.get_all_by_type('Magician')), 1)
-
-        self.logPoint()
-
     def test_update_validate(self):
         """05A - Validates the object input"""
 
